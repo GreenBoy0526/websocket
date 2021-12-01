@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module">
+        import socket from "./websocket.js";
+        let ws = new socket({
+            url: "ws://",
+            //心跳时间（单位:ms）
+            // 'heartBeat':5000,
+            //发送心跳信息（支持json传入）(这个一般内容不重要，除非后端变态)
+            //'heartMsg':'hello',
+            //开起重连
+            //'reconnect':true,
+            //重连间隔时间（单位:ms）
+            //'reconnectTime':5000,
+            //重连次数
+            //'reconnectTimes':10
+        });
+
+        //发送信息
+        ws.send({ msg: "你好" });
+
+        //关闭连接
+        ws.close();
+
+        //心跳事件
+        ws.onheartbeat(() => {
+            console.log("heartbeat");
+        });
+
+        //心跳事件
+        ws.onreconnect(() => {
+            console.log("reconnect");
+        });
+
+        //接收信息
+        ws.onmessage((data) => {
+            console.log(data);
+        });
+
+        //关闭事件
+        ws.onclose((event) => {
+            console.log(event);
+        });
+
+        //开启事件
+        ws.onopen((event) => {
+            console.log(event);
+        });
+
+        //异常事件
+        ws.onopen((event) => {
+            console.log("ws异常", event);
+        });
+
+        setTimeout(() => {
+            ws.ws.send("你好");
+        }, 1000);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
